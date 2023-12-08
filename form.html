@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Complete Form Example</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <style>
+      /* Custom CSS for additional styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+      }
+      .container {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+
+    <script>
+      $(function () {
+        var dateFormat = "mm/dd/yy",
+          from = $("#from").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1,
+            minDate: 0,
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+          <h2>Validated Form</h2>
+          <form>
+            <div class="form-group">
+              <label for="fullName">Full Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="fullName"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="Enter your email"
+                required
+              />
+              <span
+                id="emailError"
+                style="color: red; display: none; font-weight: 700;"
+                >Please Type Write Email........</span
+              >
+              <span id="good" style="color: green; display: none;"
+                >Good....</span
+              >
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number:</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="phone"
+                placeholder="Enter your phone number"
+                required
+              />
+              <span
+              id="phoneError"
+              style="color: red; display: none; font-weight: 200;"
+              >Please Input Validated Mobile Number</span
+            >
+            <span id="phonegood" style="color: green; display: none;"
+              >Good....</span
+            >
+            </div>
+
+            <div class="form-group">
+              <label for="dob">Date of Birth:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fas fa-calendar-alt"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" id="from" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="gender">Gender:</label>
+              <select class="form-control" id="gender" required>
+                <option value="">Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <textarea
+                class="form-control"
+                id="address"
+                placeholder="Enter your address"
+                rows="3"
+                required
+              ></textarea>
+              <div id="charCount" style="text-align: right; color: #999; font-size: small; font-weight: bolder;">
+                200/200
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        <div class="col-4"></div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $('#fullName').on('input', function() {
+    var nameInput = $(this).val().trim();
+    var regex = /^[A-Za-z]+$/;
+
+    if (!regex.test(nameInput)) {
+      alert("Please Enter Only Letters.");
+      $(this).val(nameInput.replace(/[^A-Za-z]/g, ''));
+    }
+  });
+
+        $("#email").on("input", function () {
+          var email = $(this).val();
+          var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+          if (!emailRegex.test(email)) {
+            $("#emailError").show();
+            $("#good").hide();
+          } else {
+            $("#emailError").hide();
+            $("#good").show();
+          }
+        });
+
+        $("#phone").on("input", function () {
+          var phone = $(this).val();
+          var phoneRegex = /^[0-9]{10}$/;
+
+          if (!phoneRegex.test(phone)) {
+            $("#phoneError").show();
+            $("#phonegood").hide();
+          } else {
+            if (!phone.startsWith("+91")) {
+              phone = "+91" + phone;
+              $(this).val(phone);
+            }
+
+            $("#phoneError").hide();
+            $("#phonegood").show();
+          }
+        });
+
+        $("#address").on("input", function () {
+          var maxChars = 200;
+          var text = $(this).val();
+          var remainingChars = maxChars - text.length;
+
+          if (remainingChars < 0) {
+            var trimmedText = text.slice(0, maxChars);
+            $(this).val(trimmedText);
+            remainingChars = 0;
+          }
+
+          $("#charCount").text(remainingChars + "/200");
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Complete Form Example</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+  <style>
+    /* Custom CSS for additional styling */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 20px;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Complete Form Example</h2>
+    <form>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter your name">
+          </div>
+
+      <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="text" class="form-control" id="date" placeholder="MM/DD/YYYY">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="text" class="form-control" id="phone" placeholder="(999) 999-9999">
+      </div>
+      <div class="form-group">
+        <label for="phoneExt">Phone Number with Extension:</label>
+        <input type="text" class="form-control" id="phoneExt" placeholder="(999) 999-9999 x99999">
+      </div>
+      <div class="form-group">
+        <label for="iphone">International Phone Number:</label>
+        <input type="text" class="form-control" id="iphone" placeholder="+33 999 999 999">
+      </div>
+      <div class="form-group">
+        <label for="tin">TIN:</label>
+        <input type="text" class="form-control" id="tin" placeholder="99-9999999">
+      </div>
+      <div class="form-group">
+        <label for="ccn">Credit Card Number:</label>
+        <input type="text" class="form-control" id="ccn" placeholder="9999 9999 9999 9999">
+      </div>
+      <div class="form-group">
+        <label for="ssn">SSN:</label>
+        <input type="text" class="form-control" id="ssn" placeholder="999-99-9999">
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+        $('#name').mask('A', {
+        translation: {
+          'A': { pattern: /[A-Za-z ]/, recursive: true }
+        }
+      });
+
+      $('#date').mask('99/99/9999', {
+        onComplete: function (cep) {
+          var today = new Date();
+          var inputDate = new Date(cep.split('/').reverse().join('/'));
+          if (inputDate < today) {
+            $('#date').val('');
+            alert('Please enter today or a future date.');
+          }
+        }
+      });
+      $('#phone').mask('(999) 999-9999');
+      $('#phoneExt').mask('(999) 999-9999? x99999');
+      $('#iphone').mask('+33 999 999 999');
+      $('#tin').mask('99-9999999');
+      $('#ccn').mask('9999 9999 9999 9999');
+      $('#ssn').mask('999-99-9999');
+
+     
+    });
+  </script>
+</body>
+</html> -->
